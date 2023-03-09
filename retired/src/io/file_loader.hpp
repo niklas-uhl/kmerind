@@ -180,7 +180,7 @@ namespace io
         * @param startOffset offset for the beginning of the data in question
         * @param endOffset   offset for the end of the data in question
         */
-       void handleError(const std::string& errType, const Iterator &start, const Iterator &end, const size_t& startOffset, const size_t& endOffset) throw (bliss::io::IOException) {
+       void handleError(const std::string& errType, const Iterator &start, const Iterator &end, const size_t& startOffset, const size_t& endOffset) {
          std::stringstream ss;
 //#ifdef USE_MPI
 //         int rank = 0;
@@ -629,7 +629,7 @@ namespace io
          *
          */
         explicit FileLoader(const std::string &_filename, const MPI_Comm& _comm, const size_t _nThreads = 1,
-                            const size_t _L2BlockSize = 0, const size_t _L1BlockSize = 0) throw (bliss::io::IOException)
+                            const size_t _L2BlockSize = 0, const size_t _L1BlockSize = 0) 
             : pageSize(sysconf(_SC_PAGE_SIZE)),
               loaded(false), fileHandle(-1), fileRange(), comm(_comm),
               L1Partitioner(), mmapData(nullptr), L1Block(),
@@ -695,7 +695,7 @@ namespace io
          *
          */
         FileLoader(const std::string &_filename, const size_t _nConcurrentLoaders, const size_t _loaderId, const size_t _nThreads = 1,
-                   const size_t _L2BlockSize = 0, const size_t _L1BlockSize = 0 ) throw (bliss::io::IOException)
+                   const size_t _L2BlockSize = 0, const size_t _L1BlockSize = 0 ) 
             : pageSize(sysconf(_SC_PAGE_SIZE)),
               loaded(false), fileHandle(-1), fileRange(),
 #ifdef USE_MPI
@@ -1075,7 +1075,7 @@ protected:
          * @param r   range that will be mapped and loaded into memory (with buffering or without)
          * @return    loaded L1 DataBlock for the specified Range
          */
-        L1BlockType& loadL1DataForRange(const RangeType &range) throw (bliss::io::IOException)
+        L1BlockType& loadL1DataForRange(const RangeType &range) 
         {
           // clean up any previous runs.
           unloadL1Data();
@@ -1448,7 +1448,7 @@ protected:
          * @param fn  name of file to open
          * @return    file handle/descriptor for the file
          */
-        int openFile(const std::string& fn) throw (bliss::io::IOException) {
+        int openFile(const std::string& fn) {
           // open the file and get a handle.
           int output = open64(fn.c_str(), O_RDONLY);
           if (output == -1)
@@ -1480,7 +1480,7 @@ protected:
          * @param fd    file descriptor, from fstat or fstat64
          * @return      size in bytes, data type size_t.
          */
-        size_t getFileSize(const int& fd) throw (bliss::io::IOException) {
+        size_t getFileSize(const int& fd) {
 
           size_t file_size = 0;
 
@@ -1525,7 +1525,7 @@ protected:
          * @return    memory address (pointer) to where the data is mapped.
          *            TODO: should return std::pair<PointerType, page aligned offset>
          */
-        PointerType map(const RangeType &r) throw (IOException) {
+        PointerType map(const RangeType &r) {
 
           /// memory map.  requires that the starting position is block aligned.
           size_t block_start = RangeType::align_to_page(r, pageSize);   // mixed use of range semantic and pageSize byte

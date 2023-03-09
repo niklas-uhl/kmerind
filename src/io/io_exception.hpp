@@ -90,7 +90,7 @@ namespace bliss
          * @brief   overridden method to retrieve the content of the error message.
          * @return  actual error message.
          */
-        virtual const char* what() const throw ()
+        virtual const char* what() const noexcept
         {
           return message.c_str();
         }
